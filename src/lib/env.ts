@@ -104,7 +104,3 @@ export function getHuggingFaceApiKey(): string {
   }
   return key;
 }
-
-export const HUGGINGFACE_MODEL =
-  process.env.HUGGINGFACE_MODEL ??
-  "mistralai/Mistral-7B-Instruct-v0.2";

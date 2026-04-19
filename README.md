@@ -1,65 +1,148 @@
-# ContentFlow — AI Content Automation (MVP)
+# ContentFlow
 
-Next.js (App Router) dashboard that turns one brief into a blog post, an X thread, and LinkedIn copy using the Hugging Face Inference API, with Supabase Auth + PostgreSQL and simulated scheduling.
+A portfolio-style **AI content automation** dashboard: one brief → blog post, X thread, and LinkedIn copy, with optional Q&A over the output and **simulated** scheduling. Built with **Next.js (App Router)**, **Supabase** (Auth + Postgres), and **Hugging Face Inference Providers** (OpenAI-compatible router).
+
+Social networks are **not** integrated—scheduling is stored in the database only.
+
+---
+
+## Features
+
+- **Auth** — Email/password via Supabase Auth; middleware protects app routes; sign out.
+- **Dashboard** — Paste an idea, generate structured campaign JSON via the HF router.
+- **Results** — Tabs (Blog / Tweets / LinkedIn), copy, regenerate per section, “chat with this content.”
+- **Scheduler** — List scheduled posts; modal to pick platform + time (demo only).
+
+---
+
+## Tech stack
+
+| Layer | Choice |
+| --- | --- |
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Styling | Tailwind CSS v4 |
+| Backend / DB | Supabase (PostgreSQL + RLS) |
+| AI | Hugging Face `router.huggingface.co` chat completions |
+| Toasts | Sonner |
+
+---
 
 ## Prerequisites
 
-- Node.js 20+
-- A [Supabase](https://supabase.com) project
-- A [Hugging Face](https://huggingface.co) access token with inference access
+- **Node.js** 20+
+- A **[Supabase](https://supabase.com)** project
+- A **[Hugging Face](https://huggingface.co/settings/tokens)** token with permission to call **Inference Providers** (for fine-grained tokens: enable *Make calls to Inference Providers*)
 
-## Setup
+---
 
-1. **Clone and install**
+## Quick start
 
-   ```bash
-   npm install
-   ```
+### 1. Install
 
-2. **Supabase database**
+```bash
+git clone <your-repo-url>
+cd ai-content-automation-platform
+npm install
+```
 
-   In the Supabase SQL editor, run `supabase/migrations/001_initial.sql` to create `contents` and `scheduled_posts` with Row Level Security.
+### 2. Supabase database
 
-3. **Auth (demo-friendly)**
+In the Supabase **SQL Editor**, run the migration:
 
-   In Supabase → Authentication → Providers → Email, consider disabling “Confirm email” for local demos, or confirm the address Supabase sends to.
+[`supabase/migrations/001_initial.sql`](./supabase/migrations/001_initial.sql)
 
-4. **Environment variables**
+This creates `contents` and `scheduled_posts` and enables Row Level Security.
 
-   Copy `.env.example` to `.env.local` and fill in:
+### 3. Environment variables
 
-   - `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` — Project Settings → API (required for the browser client).
-   - `SUPABASE_URL` / `SUPABASE_ANON_KEY` — optional duplicates; server code falls back to the `NEXT_PUBLIC_*` values.
-   - `HUGGINGFACE_API_KEY` — [token settings](https://huggingface.co/settings/tokens).
-   - `HUGGINGFACE_MODEL` — optional; default is `mistralai/Mistral-7B-Instruct-v0.2`. If cold-start or model access errors occur, pick another **Inference API–compatible** text model you are allowed to call.
+Copy the example file and fill in real values:
 
-5. **Run locally**
+```bash
+cp .env.example .env.local
+```
 
-   ```bash
-   npm run dev
-   ```
+| Variable | Required | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Project URL (Settings → API). Must be `NEXT_PUBLIC_` for the browser. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | **anon / public** key only—not `service_role`. |
+| `HUGGINGFACE_API_KEY` | Yes | HF access token. |
+| `HUGGINGFACE_MODEL` | No | Base model id; code appends `:fastest` if you omit a `:suffix`. Default in code: `Qwen/Qwen2.5-7B-Instruct`. |
+| `HUGGINGFACE_CHAT_COMPLETIONS_URL` | No | Defaults to `https://router.huggingface.co/v1/chat/completions`. |
+| `SUPABASE_URL` / `SUPABASE_ANON_KEY` | No | Optional; server code can use these as fallbacks alongside `NEXT_PUBLIC_*`. |
 
-   Open [http://localhost:3000](http://localhost:3000), sign up, then use **Dashboard** → **Generate Campaign**.
+**Important:** After any change to `.env` or `.env.local`, **restart** the dev server (`Ctrl+C`, then `npm run dev`).
+
+### 4. Auth (local demos)
+
+Supabase → **Authentication** → **Providers** → **Email** — for quick testing you can disable email confirmation, or confirm the inbox Supabase uses.
+
+### 5. Run
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) → sign up → **Dashboard** → **Generate campaign**.
+
+---
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Development server (Turbopack) |
+| `npm run build` | Production build |
+| `npm run start` | Run production build locally |
+| `npm run lint` | ESLint |
+
+---
 
 ## Deploy on Vercel
 
-1. Push the repo to GitHub and import the project in Vercel.
-2. Add the same environment variables in the Vercel project settings (include all `NEXT_PUBLIC_*` values).
-3. Deploy. No real social posting is performed; scheduling is stored in Supabase only.
+1. Push the repo to GitHub and import it in [Vercel](https://vercel.com).
+2. Add the same variables as in `.env.local` in **Project → Settings → Environment Variables** (include every `NEXT_PUBLIC_*` value).
+3. Deploy. Redeploy after changing env vars.
 
-## Project map
+---
 
-| Path | Purpose |
+## Routes overview
+
+| Path | Description |
 | --- | --- |
 | `/` | Landing |
-| `/login`, `/signup` | Supabase email/password |
-| `/dashboard` | Input + generate |
-| `/results/[id]` | Tabs, copy/regenerate, chat, schedule modal |
-| `/scheduler` | List of simulated scheduled posts |
-| `/api/generate`, `/api/regenerate`, `/api/chat`, `/api/schedule` | Server routes calling HF + Supabase |
+| `/login`, `/signup` | Email/password |
+| `/dashboard` | Create campaign |
+| `/results/[id]` | View output, chat, schedule modal |
+| `/scheduler` | Scheduled posts list + schedule modal |
+| `POST /auth/signout` | Sign out |
+| `POST /api/generate` | HF + save `contents` |
+| `POST /api/regenerate` | Regenerate one section |
+| `POST /api/chat` | Q&A over campaign |
+| `GET` / `POST /api/schedule` | List / create `scheduled_posts` |
+| `GET /api/contents` | Recent campaigns (for scheduler picker) |
+
+---
+
+## Troubleshooting
+
+| Issue | What to check |
+| --- | --- |
+| **401 / Invalid API key** (Supabase) | Use the **anon public** key in `NEXT_PUBLIC_SUPABASE_ANON_KEY`, never the service role secret. Restart `next dev`. |
+| **`Failed to fetch`** (auth) | `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` must be set for the client; project not paused. |
+| **`model_not_supported`** (Hugging Face) | [Enable Inference Providers](https://huggingface.co/settings/inference-providers) or set `HUGGINGFACE_MODEL` to a model available on a provider you use. |
+| **Old HF URL / 404** | This app uses **`https://router.huggingface.co/v1/chat/completions`**, not `api-inference.huggingface.co`. |
+| **Env not applied** | Only `.env`, `.env.local`, etc. loaded at process start—always restart the dev server. |
+
+---
 
 ## Notes
 
-- Free-tier Hugging Face inference can be slow or return loading errors on cold start; retries are normal for demos.
-- JSON-shaped campaign output is parsed server-side; malformed model output surfaces as an error toast.
-- Social APIs are intentionally not integrated.
+- Hugging Face free tier can be **slow** or cold-start; retries are normal for demos.
+- Campaign JSON is **parsed on the server**; if the model returns invalid JSON, the API returns an error.
+- **Do not** commit real `.env` files or expose `service_role` / HF tokens in client-side code.
+
+---
+
+## License
+
+Use and modify freely for learning and portfolio demos.
