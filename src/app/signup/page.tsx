@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { describeAuthNetworkError } from "@/lib/auth-errors";
+import { formatAuthError } from "@/lib/auth-errors";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
@@ -36,7 +36,7 @@ export default function SignupPage() {
       router.push("/login");
       router.refresh();
     } catch (err) {
-      toast.error(describeAuthNetworkError(err));
+      toast.error(formatAuthError(err));
     } finally {
       setLoading(false);
     }

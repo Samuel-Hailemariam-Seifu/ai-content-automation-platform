@@ -3,6 +3,46 @@ function trim(v: string | undefined): string | undefined {
   return t || undefined;
 }
 
+/** Decode JWT payload (no signature verify) — used only for dev diagnostics. */
+function decodeJwtPayload(token: string): { role?: string } | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    let base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const pad = base64.length % 4;
+    if (pad) base64 += "=".repeat(4 - pad);
+    const json: unknown = JSON.parse(atob(base64));
+    if (json && typeof json === "object") {
+      return json as { role?: string };
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * In dev, warn if the "anon" slot actually contains the service_role secret
+ * (common cause of 401 Invalid API key on /auth/v1/*).
+ */
+function warnIfAnonKeyLooksWrong(key: string) {
+  if (typeof window === "undefined") return;
+  if (process.env.NODE_ENV === "production") return;
+
+  const payload = decodeJwtPayload(key);
+  if (!payload) {
+    console.warn(
+      "[Supabase] NEXT_PUBLIC_SUPABASE_ANON_KEY should be a JWT with three dot-separated parts. Copy the full anon key from the dashboard.",
+    );
+    return;
+  }
+  if (payload.role === "service_role") {
+    console.error(
+      "[Supabase] NEXT_PUBLIC_SUPABASE_ANON_KEY is the service_role secret. Replace it with the anon public key (Project Settings → API → anon public). Never expose service_role to the browser.",
+    );
+  }
+}
+
 function assertValidHttpUrl(url: string, label: string): string {
   const normalized = url.replace(/\/+$/, "");
   try {
@@ -53,6 +93,7 @@ export function getSupabaseAnonKey(): string {
     throw new Error(`Missing Supabase anon key. ${hint}`);
   }
 
+  warnIfAnonKeyLooksWrong(resolved);
   return resolved;
 }
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
-import { describeAuthNetworkError } from "@/lib/auth-errors";
+import { formatAuthError } from "@/lib/auth-errors";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
@@ -34,7 +34,7 @@ function LoginForm() {
       router.push(next.startsWith("/") ? next : "/dashboard");
       router.refresh();
     } catch (err) {
-      toast.error(describeAuthNetworkError(err));
+      toast.error(formatAuthError(err));
     } finally {
       setLoading(false);
     }
