@@ -81,18 +81,18 @@ export function ContentChat({ contentId }: { contentId: string }) {
 
         <form
           onSubmit={send}
-          className="flex gap-2 border-t border-white/[0.06] bg-zinc-950/60 p-3"
+          className="flex flex-col gap-2 border-t border-white/[0.06] bg-zinc-950/60 p-3 sm:flex-row sm:items-stretch sm:gap-2"
         >
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Ask a question…"
-            className="min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-3 py-2 text-[13px] text-zinc-100 placeholder:text-zinc-600 outline-none focus-visible:ring-1 focus-visible:ring-indigo-500/40"
+            className="min-h-11 min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-3 py-2 text-base text-zinc-100 placeholder:text-zinc-600 outline-none focus-visible:ring-1 focus-visible:ring-indigo-500/40 sm:min-h-0 sm:text-[13px]"
           />
           <button
             type="submit"
             disabled={loading}
-            className="shrink-0 rounded-lg bg-indigo-500 px-3.5 py-2 text-[13px] font-medium text-white transition-colors hover:bg-indigo-400 disabled:opacity-45"
+            className="min-h-11 shrink-0 touch-manipulation rounded-lg bg-indigo-500 px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-indigo-400 disabled:opacity-45 sm:min-h-0 sm:px-3.5"
           >
             Send
           </button>

@@ -8,7 +8,7 @@ type Platform = "twitter" | "linkedin" | "blog";
 type Campaign = { id: string; input_text: string };
 
 const field =
-  "mt-1.5 w-full rounded-lg border border-white/[0.08] bg-zinc-950/50 px-3 py-2 text-[13px] text-zinc-100 outline-none transition-colors placeholder:text-zinc-600 focus:border-indigo-500/35 focus:ring-1 focus:ring-indigo-500/25";
+  "mt-1.5 min-h-11 w-full rounded-lg border border-white/[0.08] bg-zinc-950/50 px-3 py-2 text-base text-zinc-100 outline-none transition-colors placeholder:text-zinc-600 focus:border-indigo-500/35 focus:ring-1 focus:ring-indigo-500/25 sm:min-h-0 sm:text-[13px]";
 
 const label = "text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500";
 
@@ -97,7 +97,7 @@ export function ScheduleModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
       <button
         type="button"
         aria-label="Close"
@@ -105,7 +105,7 @@ export function ScheduleModal({
         onClick={onClose}
       />
       <div
-        className="relative w-full max-w-md rounded-2xl border border-white/[0.08] bg-zinc-950 p-6 shadow-2xl shadow-black/40"
+        className="relative max-h-[min(92dvh,calc(100dvh-env(safe-area-inset-bottom)-1rem))] w-full max-w-md overflow-y-auto rounded-t-2xl border border-white/[0.08] border-b-0 bg-zinc-950 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-2xl shadow-black/40 sm:rounded-2xl sm:border-b sm:p-6 sm:pb-6"
         role="dialog"
         aria-modal="true"
       >
@@ -169,18 +169,18 @@ export function ScheduleModal({
               className={field}
             />
           </div>
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-300"
+              className="min-h-11 touch-manipulation rounded-lg px-3 py-2 text-[13px] font-medium text-zinc-500 transition-colors hover:bg-white/[0.04] hover:text-zinc-300 sm:min-h-0"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || (!contentId && !pickedId)}
-              className="rounded-lg bg-indigo-500 px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-indigo-400 disabled:opacity-45"
+              className="min-h-11 touch-manipulation rounded-lg bg-indigo-500 px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-indigo-400 disabled:opacity-45 sm:min-h-0"
             >
               {loading ? "Saving…" : "Save"}
             </button>

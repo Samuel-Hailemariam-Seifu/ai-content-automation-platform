@@ -8,7 +8,7 @@ import { formatAuthError } from "@/lib/auth-errors";
 import { createClient } from "@/lib/supabase/client";
 
 const inputClass =
-  "mt-1.5 w-full rounded-lg border border-white/[0.08] bg-zinc-950/50 px-3.5 py-2.5 text-[13px] text-zinc-100 outline-none transition-colors focus:border-indigo-500/35 focus:ring-1 focus:ring-indigo-500/25";
+  "mt-1.5 min-h-11 w-full rounded-lg border border-white/[0.08] bg-zinc-950/50 px-3.5 py-2.5 text-base text-zinc-100 outline-none transition-colors focus:border-indigo-500/35 focus:ring-1 focus:ring-indigo-500/25 sm:min-h-0 sm:text-[13px]";
 
 function LoginForm() {
   const router = useRouter();
@@ -95,7 +95,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 w-full rounded-lg bg-indigo-500 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-400 disabled:opacity-45"
+            className="mt-2 min-h-11 w-full touch-manipulation rounded-lg bg-indigo-500 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-400 disabled:opacity-45"
           >
             {loading ? "Signing in…" : "Sign in"}
           </button>
@@ -116,7 +116,7 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
+    <div className="flex min-h-dvh flex-col items-center justify-center px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]">
       <Suspense
         fallback={
           <div className="h-44 w-full max-w-sm animate-shimmer rounded-2xl" />

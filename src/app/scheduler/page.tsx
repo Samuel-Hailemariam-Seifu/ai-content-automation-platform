@@ -65,12 +65,12 @@ export default function SchedulerPage() {
   return (
     <AppShell>
       <div className="space-y-10">
-        <header className="flex flex-col gap-6 border-b border-white/[0.06] pb-10 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-2">
+        <header className="flex flex-col gap-4 border-b border-white/[0.06] pb-8 sm:gap-6 sm:pb-10 md:flex-row md:items-start md:justify-between">
+          <div className="min-w-0 space-y-2">
             <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-500">
               Plan
             </p>
-            <h1 className="text-xl font-medium tracking-tight text-zinc-50">
+            <h1 className="text-lg font-medium tracking-tight text-zinc-50 sm:text-xl">
               Scheduler
             </h1>
             <p className="max-w-md text-[14px] leading-relaxed text-zinc-500">
@@ -80,7 +80,7 @@ export default function SchedulerPage() {
           <button
             type="button"
             onClick={() => setScheduleOpen(true)}
-            className="shrink-0 rounded-lg bg-indigo-500 px-3.5 py-2 text-[13px] font-medium text-white transition-colors hover:bg-indigo-400"
+            className="touch-manipulation w-full shrink-0 rounded-lg bg-indigo-500 px-3.5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-indigo-400 sm:w-auto sm:py-2"
           >
             Schedule post
           </button>
@@ -108,9 +108,9 @@ export default function SchedulerPage() {
               return (
                 <li
                   key={row.id}
-                  className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-5 py-5"
+                  className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-4 py-4 sm:px-5 sm:py-5"
                 >
-                  <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-baseline sm:justify-between sm:gap-3">
                     <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500">
                       {plat}
                     </span>
@@ -124,7 +124,7 @@ export default function SchedulerPage() {
                       })}
                     </time>
                   </div>
-                  <p className="mt-3 text-[14px] leading-relaxed text-zinc-400">
+                  <p className="mt-1 break-words text-[14px] leading-relaxed text-zinc-400 sm:mt-3">
                     {(() => {
                       const p = preview(row.platform, emb ?? null);
                       return p.length >= 120 ? `${p.slice(0, 120)}…` : p;

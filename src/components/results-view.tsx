@@ -12,7 +12,7 @@ import type { ContentRow } from "@/types/database";
 type Props = { initial: ContentRow };
 
 const btnSecondary =
-  "rounded-md border border-white/[0.08] bg-white/[0.03] px-2.5 py-1 text-[12px] font-medium text-zinc-400 transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] hover:text-zinc-200 disabled:opacity-45";
+  "touch-manipulation rounded-md border border-white/[0.08] bg-white/[0.03] px-2.5 py-2 text-[12px] font-medium text-zinc-400 transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] hover:text-zinc-200 disabled:opacity-45 sm:py-1";
 
 export function ResultsView({ initial }: Props) {
   const router = useRouter();
@@ -78,8 +78,8 @@ export function ResultsView({ initial }: Props) {
               {regen === "blog" ? "Regenerating…" : "Regenerate"}
             </button>
           </div>
-          <div className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-5 py-6">
-            <div className="whitespace-pre-wrap text-[15px] leading-[1.7] text-zinc-300">
+          <div className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-3 py-4 sm:px-5 sm:py-6">
+            <div className="break-words whitespace-pre-wrap text-[15px] leading-[1.7] text-zinc-300">
               {blog}
             </div>
           </div>
@@ -108,12 +108,12 @@ export function ResultsView({ initial }: Props) {
             {tweets.map((t, i) => (
               <li
                 key={i}
-                className="flex gap-4 rounded-xl border border-white/[0.05] bg-zinc-950/30 px-4 py-4"
+                className="flex gap-3 rounded-xl border border-white/[0.05] bg-zinc-950/30 px-3 py-3 sm:gap-4 sm:px-4 sm:py-4"
               >
                 <span className="w-5 shrink-0 pt-0.5 text-right font-mono text-[11px] tabular-nums text-zinc-600">
                   {i + 1}
                 </span>
-                <span className="flex-1 text-[15px] leading-relaxed text-zinc-300">
+                <span className="min-w-0 flex-1 break-words text-[15px] leading-relaxed text-zinc-300">
                   {t}
                 </span>
               </li>
@@ -138,8 +138,8 @@ export function ResultsView({ initial }: Props) {
               {regen === "linkedin" ? "Regenerating…" : "Regenerate"}
             </button>
           </div>
-          <div className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-5 py-6">
-            <p className="whitespace-pre-wrap text-[15px] leading-[1.7] text-zinc-300">
+          <div className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-3 py-4 sm:px-5 sm:py-6">
+            <p className="break-words whitespace-pre-wrap text-[15px] leading-[1.7] text-zinc-300">
               {linkedin}
             </p>
           </div>
@@ -151,22 +151,22 @@ export function ResultsView({ initial }: Props) {
   return (
     <>
       <div className="space-y-10">
-        <header className="flex flex-col gap-6 border-b border-white/[0.06] pb-10 sm:flex-row sm:items-start sm:justify-between">
+        <header className="flex flex-col gap-4 border-b border-white/[0.06] pb-8 sm:gap-6 sm:pb-10 md:flex-row md:items-start md:justify-between">
           <div className="min-w-0 space-y-2">
             <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-500">
               Campaign
             </p>
-            <h1 className="text-xl font-medium tracking-tight text-zinc-50">
+            <h1 className="text-lg font-medium tracking-tight text-zinc-50 sm:text-xl">
               Generated content
             </h1>
-            <p className="line-clamp-3 text-[14px] leading-relaxed text-zinc-500">
+            <p className="line-clamp-4 text-[14px] leading-relaxed text-zinc-500 sm:line-clamp-3">
               {row.input_text}
             </p>
           </div>
           <button
             type="button"
             onClick={() => setScheduleOpen(true)}
-            className="shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3.5 py-2 text-[13px] font-medium text-zinc-300 transition-colors hover:border-white/[0.12] hover:bg-white/[0.06] hover:text-zinc-100"
+            className="touch-manipulation w-full shrink-0 rounded-lg border border-white/[0.08] bg-white/[0.03] px-3.5 py-2.5 text-[13px] font-medium text-zinc-300 transition-colors hover:border-white/[0.12] hover:bg-white/[0.06] hover:text-zinc-100 sm:w-auto md:py-2"
           >
             Schedule post
           </button>

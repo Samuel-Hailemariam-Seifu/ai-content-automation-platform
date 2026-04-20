@@ -70,15 +70,15 @@ export default function DashboardPage() {
               placeholder="Paste your content or idea..."
               rows={10}
               disabled={loading}
-              className="min-h-[220px] w-full resize-y bg-transparent px-4 py-4 text-[15px] leading-[1.65] text-zinc-100 placeholder:text-zinc-600 outline-none disabled:opacity-50"
+              className="min-h-[200px] w-full resize-y bg-transparent px-3 py-3 text-base leading-[1.65] text-zinc-100 placeholder:text-zinc-600 outline-none disabled:opacity-50 sm:min-h-[220px] sm:px-4 sm:py-4 sm:text-[15px]"
             />
           </div>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center justify-center rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-45"
+              className="inline-flex min-h-11 touch-manipulation items-center justify-center rounded-lg bg-indigo-500 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-45 sm:min-h-0 sm:w-auto sm:py-2.5"
             >
               {loading ? (
                 <span className="flex items-center gap-2.5">
@@ -93,7 +93,7 @@ export default function DashboardPage() {
               )}
             </button>
             {loading && (
-              <span className="text-[13px] text-zinc-500">
+              <span className="text-[13px] leading-snug text-zinc-500 sm:max-w-[14rem]">
                 Free tier can take up to a minute.
               </span>
             )}
