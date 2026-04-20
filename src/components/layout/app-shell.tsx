@@ -5,9 +5,12 @@ const links = [
   { href: "/scheduler", label: "Scheduler" },
 ];
 
-/** Total height of fixed bar = safe-area + 3.25rem — keep in sync with header inner `h-[3.25rem]`. */
-const MAIN_PT =
-  "pt-[calc(3.25rem+env(safe-area-inset-top))]";
+/**
+ * Padding below fixed header + subtle top rule.
+ * Sync inner header `h-[3.25rem]` with first value in calc.
+ */
+const MAIN_CONTENT_TOP =
+  "border-t border-white/[0.06] pt-[calc(3.25rem+env(safe-area-inset-top)+2rem)] sm:pt-[calc(3.25rem+env(safe-area-inset-top)+2.5rem)]";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -42,7 +45,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
       <main
-        className={`mx-auto w-full min-w-0 max-w-3xl flex-1 px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-12 ${MAIN_PT}`}
+        className={`mx-auto w-full min-w-0 max-w-3xl flex-1 px-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 sm:pb-12 ${MAIN_CONTENT_TOP}`}
       >
         {children}
       </main>

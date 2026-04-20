@@ -24,7 +24,7 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      <main className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col justify-center px-4 pb-[max(3rem,env(safe-area-inset-bottom))] pt-[calc(3.25rem+env(safe-area-inset-top)+2rem)] text-center sm:px-6 sm:pb-24 sm:pt-[calc(3.25rem+env(safe-area-inset-top)+5rem)]">
+      <main className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col justify-center border-t border-white/[0.06] px-4 pb-[max(3rem,env(safe-area-inset-bottom))] pt-[calc(3.25rem+env(safe-area-inset-top)+2rem)] text-center sm:px-6 sm:pb-24 sm:pt-[calc(3.25rem+env(safe-area-inset-top)+2.5rem)]">
         <h1 className="text-balance text-[1.75rem] font-medium leading-[1.15] tracking-tight text-zinc-50 sm:text-[2rem] md:text-4xl md:leading-[1.12]">
           One brief.{" "}
           <span className="text-indigo-400/95">Many formats.</span>

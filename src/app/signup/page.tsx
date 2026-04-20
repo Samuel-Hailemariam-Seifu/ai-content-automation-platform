@@ -43,7 +43,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))]">
+    <div className="flex min-h-dvh w-full flex-col items-center justify-center border-t border-white/[0.06] px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[calc(env(safe-area-inset-top)+2rem)] sm:pt-[calc(env(safe-area-inset-top)+2.5rem)]">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
           <Link
