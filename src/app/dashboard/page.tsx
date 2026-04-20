@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   return (
     <AppShell>
-      <div className="space-y-10">
+      <div className="space-y-10 border-t border-white/[0.06] pt-8 sm:pt-10">
         <header className="space-y-2">
           <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-500">
             Create

@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="border-b border-white/[0.06] bg-zinc-950/75 backdrop-blur-xl">
-        <div className="mx-auto flex min-h-[3.25rem] max-w-3xl flex-wrap items-center justify-between gap-2 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:h-[3.25rem] sm:flex-nowrap sm:px-6 sm:py-0">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-zinc-950/90 backdrop-blur-xl pt-[env(safe-area-inset-top)]">
+        <div className="mx-auto flex h-[3.25rem] max-w-3xl items-center justify-between gap-2 px-4 sm:px-6">
           <span className="text-[15px] font-medium tracking-[-0.02em] text-zinc-100">
             Content<span className="text-indigo-400/95">Flow</span>
           </span>
@@ -24,7 +24,7 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      <main className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col justify-center px-4 py-12 pb-[max(3rem,env(safe-area-inset-bottom))] text-center sm:px-6 sm:py-24">
+      <main className="mx-auto flex w-full min-w-0 max-w-lg flex-1 flex-col justify-center px-4 pb-[max(3rem,env(safe-area-inset-bottom))] pt-[calc(3.25rem+env(safe-area-inset-top)+2rem)] text-center sm:px-6 sm:pb-24 sm:pt-[calc(3.25rem+env(safe-area-inset-top)+5rem)]">
         <h1 className="text-balance text-[1.75rem] font-medium leading-[1.15] tracking-tight text-zinc-50 sm:text-[2rem] md:text-4xl md:leading-[1.12]">
           One brief.{" "}
           <span className="text-indigo-400/95">Many formats.</span>
