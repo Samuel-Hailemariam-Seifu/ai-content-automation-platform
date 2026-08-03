@@ -97,10 +97,10 @@ export function getSupabaseAnonKey(): string {
   return resolved;
 }
 
-export function getHuggingFaceApiKey(): string {
-  const key = trim(process.env.HUGGINGFACE_API_KEY);
+export function getGroqApiKey(): string {
+  const key = trim(process.env.GROQ_API_KEY);
   if (!key) {
-    throw new Error("Missing HUGGINGFACE_API_KEY");
+    throw new Error("Missing GROQ_API_KEY");
   }
   return key;
 }

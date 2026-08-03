@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { runInference } from "@/lib/huggingface";
+import { runInference } from "@/lib/groq";
 import type { CampaignJson } from "@/lib/parse-json-output";
 import { buildRegeneratePrompt } from "@/lib/prompts";
 import { createClient } from "@/lib/supabase/server";
