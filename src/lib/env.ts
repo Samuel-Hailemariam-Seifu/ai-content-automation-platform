@@ -58,21 +58,49 @@ function assertValidHttpUrl(url: string, label: string): string {
   return normalized;
 }
 
+function resolveSupabaseUrl(): string | undefined {
+  const pub = trim(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  const serverOnly = trim(process.env.SUPABASE_URL);
+  return typeof window !== "undefined" ? pub : pub ?? serverOnly;
+}
+
+function resolveSupabaseAnonKey(): string | undefined {
+  const pub = trim(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const serverOnly = trim(process.env.SUPABASE_ANON_KEY);
+  return typeof window !== "undefined" ? pub : pub ?? serverOnly;
+}
+
+/**
+ * Non-throwing read for Edge middleware. Returns null when misconfigured
+ * so the middleware can degrade instead of crashing the whole site.
+ */
+export function tryGetSupabaseConfig(): { url: string; anonKey: string } | null {
+  const rawUrl = resolveSupabaseUrl();
+  const anonKey = resolveSupabaseAnonKey();
+  if (!rawUrl || !anonKey) return null;
+
+  try {
+    return {
+      url: assertValidHttpUrl(rawUrl, "NEXT_PUBLIC_SUPABASE_URL"),
+      anonKey,
+    };
+  } catch {
+    return null;
+  }
+}
+
 /**
  * In the browser, only `NEXT_PUBLIC_*` env vars exist. `SUPABASE_URL` alone
  * is not available to client bundles — that commonly causes `TypeError: Failed to fetch`.
  */
 export function getSupabaseUrl(): string {
-  const pub = trim(process.env.NEXT_PUBLIC_SUPABASE_URL);
-  const serverOnly = trim(process.env.SUPABASE_URL);
-  const resolved =
-    typeof window !== "undefined" ? pub : pub ?? serverOnly;
+  const resolved = resolveSupabaseUrl();
 
   if (!resolved) {
     const hint =
       typeof window !== "undefined"
         ? "Set NEXT_PUBLIC_SUPABASE_URL in .env.local (the anon URL from Supabase → Project Settings → API), then restart `next dev`. The name must start with NEXT_PUBLIC_."
-        : "Set NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL.";
+        : "Set NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL in the Vercel project Environment Variables, then redeploy.";
     throw new Error(`Missing Supabase URL. ${hint}`);
   }
 
@@ -80,16 +108,13 @@ export function getSupabaseUrl(): string {
 }
 
 export function getSupabaseAnonKey(): string {
-  const pub = trim(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-  const serverOnly = trim(process.env.SUPABASE_ANON_KEY);
-  const resolved =
-    typeof window !== "undefined" ? pub : pub ?? serverOnly;
+  const resolved = resolveSupabaseAnonKey();
 
   if (!resolved) {
     const hint =
       typeof window !== "undefined"
         ? "Set NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local (anon public key from Supabase → API), then restart `next dev`."
-        : "Set NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_ANON_KEY.";
+        : "Set NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_ANON_KEY in the Vercel project Environment Variables, then redeploy.";
     throw new Error(`Missing Supabase anon key. ${hint}`);
   }
 

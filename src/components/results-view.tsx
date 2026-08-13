@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ContentChat } from "@/components/content-chat";
+import { MarkdownBody } from "@/components/markdown-body";
 import { ScheduleModal } from "@/components/schedule-modal";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Tabs } from "@/components/ui/tabs";
@@ -79,9 +80,7 @@ export function ResultsView({ initial }: Props) {
             </button>
           </div>
           <div className="rounded-xl border border-white/[0.06] bg-zinc-950/35 px-3 py-4 sm:px-5 sm:py-6">
-            <div className="break-words whitespace-pre-wrap text-[15px] leading-[1.7] text-zinc-300">
-              {blog}
-            </div>
+            <MarkdownBody content={blog} />
           </div>
         </section>
       ),
